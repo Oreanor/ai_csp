@@ -24,7 +24,7 @@
     "choicesIntro": "Swap implementations via UserRepository and LlmClient.",
     "dbLabel": "Database",
     "dbOptions": [
-      "Postgres / MySQL / SQLite; Prisma, Drizzle, or SQL. PoC: JSON file for /api/users."
+      "Postgres / MySQL / SQLite; Drizzle, Kysely, or plain SQL. PoC: JSON file for /api/users."
     ],
     "llmLabel": "LLM",
     "llmOptions": [
@@ -55,7 +55,7 @@
     "history": "History",
     "settings": "Settings",
     "disclaimer": "Disclaimer",
-    "disclaimerAria": "Open PoC disclaimer and orientation (English)"
+    "disclaimerAria": "Open PoC disclaimer and orientation"
   },
   "Theme": {
     "toggle": "Switch light or dark theme"
@@ -133,7 +133,6 @@
     "statusPaused": "Paused",
     "statusDone": "Completed",
     "btnPause": "Pause",
-    "btnResume": "Resume",
     "btnEnd": "End session",
     "btnNew": "New session",
     "btnClose": "Close",
@@ -165,11 +164,6 @@
     "title": "Conversation history",
     "description": "Review timestamps, messages, and playback records after each session.",
     "hint": "Sample past sessions — export and playback will connect to storage later.",
-    "colWhen": "When",
-    "colCandidate": "Candidate",
-    "colSummary": "Summary",
-    "colMessages": "Messages",
-    "colRecording": "Recording",
     "recordingYes": "Available",
     "recordingNo": "None",
     "btnDetails": "Details",

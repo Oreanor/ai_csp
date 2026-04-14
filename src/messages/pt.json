@@ -24,7 +24,7 @@
     "choicesIntro": "Trocar implementações via UserRepository e LlmClient.",
     "dbLabel": "Base de dados",
     "dbOptions": [
-      "Postgres / MySQL / SQLite; Prisma, Drizzle ou SQL. PoC: ficheiro JSON em /api/users."
+      "Postgres / MySQL / SQLite; Drizzle, Kysely ou SQL direto. PoC: ficheiro JSON em /api/users."
     ],
     "llmLabel": "LLM",
     "llmOptions": [
@@ -133,7 +133,6 @@
     "statusPaused": "Em pausa",
     "statusDone": "Concluída",
     "btnPause": "Pausar",
-    "btnResume": "Retomar",
     "btnEnd": "Terminar sessão",
     "btnNew": "Nova sessão",
     "btnClose": "Fechar",
@@ -165,11 +164,6 @@
     "title": "Histórico da conversa",
     "description": "Consulte horários, mensagens e reproduções após cada sessão.",
     "hint": "Sessões passadas de exemplo — exportação e áudio ligarão ao armazenamento mais tarde.",
-    "colWhen": "Quando",
-    "colCandidate": "Candidato",
-    "colSummary": "Resumo",
-    "colMessages": "Mensagens",
-    "colRecording": "Gravação",
     "recordingYes": "Disponível",
     "recordingNo": "Nenhuma",
     "btnDetails": "Detalhes",

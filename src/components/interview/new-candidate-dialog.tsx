@@ -18,7 +18,7 @@ import {
   initialsFromName,
   newPersonaId,
   parseCommaTags,
-} from "@/lib/utils/candidate";
+} from "@/lib/utils";
 import type { Candidate } from "@/types/interview";
 
 type NewCandidateDialogProps = {

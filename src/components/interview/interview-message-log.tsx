@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { candidateShortName } from "@/lib/utils/candidate";
+import { candidateShortName } from "@/lib/utils";
 import type { Candidate, ConversationLanguage, InterviewMessage } from "@/types/interview";
 
 type InterviewMessageLogProps = {

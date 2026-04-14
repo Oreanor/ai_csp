@@ -1,0 +1,43 @@
+import type { Candidate } from "@/types/interview";
+
+export const initialCandidates: Candidate[] = [
+  {
+    id: "carlos",
+    initials: "CA",
+    name: "Carlos Almeida",
+    role: "Senior Backend",
+    status: "online",
+    seniority: "Senior",
+    background: "8 years in backend engineering, 3 years in fintech.",
+    skills: ["Node.js", "Go", "PostgreSQL", "Kafka", "Docker"],
+    traits: ["Analytical", "Team-oriented", "Precise"],
+    motivation: "Engineering leadership and complex technical challenges.",
+    communicationStyle: "Formal, structured, with practical examples.",
+  },
+  {
+    id: "maria",
+    initials: "MS",
+    name: "Maria Santos",
+    role: "Product Manager",
+    status: "offline",
+    seniority: "Mid-level",
+    background: "6 years across B2B SaaS and product discovery.",
+    skills: ["Roadmapping", "Metrics", "User research"],
+    traits: ["Curious", "Empathetic", "Organized"],
+    motivation: "Building products with measurable user impact.",
+    communicationStyle: "Friendly, objective, and collaborative.",
+  },
+  {
+    id: "joao",
+    initials: "JR",
+    name: "João Ribeiro",
+    role: "UX Designer",
+    status: "offline",
+    seniority: "Mid-level",
+    background: "5 years in UX and design systems for web products.",
+    skills: ["Figma", "Design systems", "Prototyping"],
+    traits: ["Creative", "Methodical", "Calm"],
+    motivation: "Designing intuitive experiences for complex products.",
+    communicationStyle: "Clear, visual, and user-centered.",
+  },
+];

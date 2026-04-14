@@ -1,0 +1,247 @@
+{
+  "Common": {
+    "close": "Fechar"
+  },
+  "WelcomeModal": {
+    "title": "Bem-vindo — Candidato IA (PoC)",
+    "description": "Pode voltar a abrir em qualquer momento pelo botão «Aviso» no cabeçalho.",
+    "sectionBuiltTitle": "Stack e disposição",
+    "sectionBuiltBody": "Next.js (App Router), next-intl EN/PT, temas, UI ao estilo shadcn. Três colunas: candidatos, fase + chat, perfil.",
+    "sectionCanTitle": "O que pode experimentar",
+    "whatCanItems": [
+      "Candidatos de demonstração e perfil; adicionar persona (perde-se ao atualizar). Barra de texto → apenas chat local.",
+      "Sessões / Histórico / Configurações = mocks de layout. EN/PT + tema no cabeçalho.",
+      "Stubs de API: GET/POST /api/users (ficheiro JSON), POST /api/llm/complete (stub)."
+    ],
+    "sectionMocksTitle": "Ainda simulado",
+    "sectionMocksBody": "Sem autenticação. A entrevista não é guardada no servidor. Microfone / pausa / parar são só visuais. A rota LLM é um stub até existir um cliente real.",
+    "sectionPlannedTitle": "Próxima integração",
+    "plannedItems": [
+      "Base de dados + APIs para utilizadores, sessões, transcrições; autenticação e workspaces.",
+      "LLM real (ver abaixo) e voz: STT + TTS para o candidato."
+    ],
+    "sectionChoicesTitle": "Escolha mais tarde",
+    "choicesIntro": "Trocar implementações via UserRepository e LlmClient.",
+    "dbLabel": "Base de dados",
+    "dbOptions": [
+      "Postgres / MySQL / SQLite; Prisma, Drizzle ou SQL. PoC: ficheiro JSON em /api/users."
+    ],
+    "llmLabel": "LLM",
+    "llmOptions": [
+      "OpenAI, Anthropic, Azure OpenAI, Gemini; ou alojado por si (Ollama, vLLM, compatível com OpenAI)."
+    ],
+    "voiceLabel": "Voz",
+    "voiceOptions": [
+      "Web Speech API para testes rápidos; STT/TTS na nuvem (Google, Azure, AWS, ElevenLabs, …)."
+    ],
+    "sectionResearchTitle": "Voz e LLM — conclusões do estudo",
+    "sectionResearchIntro": "Resumo de docs/VOICE_AND_LLM_OPTIONS.md (preços e tiers gratuitos mudam — confirme nos fornecedores).",
+    "researchItems": [
+      "STT em português: use pt-BR ou pt-PT de forma explícita; a qualidade varia com sotaque, microfone e ruído — teste com excertos reais da entrevista, não só com benchmarks.",
+      "STT quase grátis: Whisper local (ex.: faster-whisper, whisper.cpp). Web Speech no browser é grátis mas costuma ser fraco em PT. Para streaming, compare STT na nuvem (Azure, Google, Deepgram, AssemblyAI) no mesmo áudio.",
+      "PoC de LLM barato: Google AI Studio (Gemini), tier gratuito do Groq ou Ollama na máquina. Em produção paga, modelos rápidos/pequenos (ex.: Gemini Flash, GPT-4o-mini) costumam chegar para respostas curtas.",
+      "TTS: grátis/offline Piper ou voz sintética do browser; vozes neurais mais baratas na nuvem (Azure, Google, Polly); voz mais natural tende a custar mais (ex.: ElevenLabs). Alinhe o locale da voz a pt-BR vs pt-PT.",
+      "STT, LLM e TTS são independentes: melhor transcrição não substitui modelo fraco ou voz mal escolhida."
+    ],
+    "closing": "Servidor: docs/BACKEND.md · STT/LLM/TTS: docs/VOICE_AND_LLM_OPTIONS.md",
+    "btnGotIt": "Entendi"
+  },
+  "App": {
+    "name": "Candidato IA",
+    "shortLogo": "IA"
+  },
+  "Header": {
+    "sessions": "Sessões",
+    "history": "Histórico",
+    "settings": "Configurações",
+    "disclaimer": "Aviso",
+    "disclaimerAria": "Abrir aviso e orientação do PoC"
+  },
+  "Theme": {
+    "toggle": "Alternar entre tema claro e escuro"
+  },
+  "Language": {
+    "interface": "Idioma da interface",
+    "english": "Inglês",
+    "portuguese": "Português"
+  },
+  "Candidates": {
+    "title": "Candidatos",
+    "addTooltip": "Adicionar candidato"
+  },
+  "AddPersona": {
+    "title": "Nova persona de candidato",
+    "description": "Guardada só na memória deste separador. Ao atualizar a página, volta a lista de demonstração.",
+    "name": "Nome completo",
+    "role": "Cargo / função",
+    "seniority": "Senioridade",
+    "background": "Resumo profissional",
+    "cvUpload": "Ficheiro de CV (.txt, .md)",
+    "cvPaste": "Texto do CV",
+    "cvPlaceholder": "Cole o texto do CV ou carregue um ficheiro em texto simples acima.",
+    "cvPdfHint": "PDF não é processado neste PoC — cole o texto extraído do CV.",
+    "skills": "Competências",
+    "skillsHint": "ex.: Node.js, PostgreSQL, Kafka",
+    "traits": "Personalidade",
+    "traitsHint": "ex.: Analítico, Calmo, Direto",
+    "motivation": "Motivação",
+    "communicationStyle": "Estilo de comunicação",
+    "cancel": "Cancelar",
+    "save": "Guardar persona"
+  },
+  "Interview": {
+    "pause": "Pausar",
+    "stop": "Parar",
+    "live": "AO VIVO",
+    "liveTimer": "04:17",
+    "inputPlaceholder": "Digite a pergunta da entrevista…",
+    "sendMessage": "Enviar mensagem"
+  },
+  "Profile": {
+    "profileTab": "Perfil",
+    "sessionTab": "Sessão",
+    "sessionPlaceholder": "Temporização da sessão, modelo e encaminhamento de áudio aparecerão aqui na próxima iteração.",
+    "cv": "CV (texto)",
+    "experience": "Experiência",
+    "techStack": "Stack técnica",
+    "personality": "Personalidade",
+    "motivation": "Motivação",
+    "communicationStyle": "Estilo de comunicação",
+    "editProfile": "Editar perfil"
+  },
+  "Voice": {
+    "candidateAnswering": "Candidato a responder",
+    "transcript": "Transcrição",
+    "pressToSpeak": "Pressione para falar",
+    "micAria": "Entrada de voz"
+  },
+  "MessageLog": {
+    "you": "Você"
+  },
+  "SessionsModal": {
+    "title": "Controles de sessão",
+    "description": "Inicie, pause, reinicie e finalize entrevistas neste painel.",
+    "hint": "Dados de exemplo para o layout — as ações ainda não estão ligadas.",
+    "activeSection": "Entrevista ativa",
+    "otherSection": "Outras sessões hoje",
+    "colCandidate": "Candidato",
+    "colRole": "Função",
+    "colStatus": "Estado",
+    "colDuration": "Decorrido",
+    "colModel": "Modelo",
+    "statusLive": "Ao vivo",
+    "statusPaused": "Em pausa",
+    "statusDone": "Concluída",
+    "btnPause": "Pausar",
+    "btnResume": "Retomar",
+    "btnEnd": "Terminar sessão",
+    "btnNew": "Nova sessão",
+    "btnClose": "Fechar",
+    "btnDisabledHint": "Indisponível neste PoC",
+    "current": {
+      "name": "Carlos Almeida",
+      "role": "Senior Backend",
+      "duration": "04:17",
+      "model": "Equilibrado (demo)"
+    },
+    "rows": [
+      {
+        "name": "Maria Santos",
+        "role": "Product Manager",
+        "status": "paused",
+        "duration": "00:00",
+        "model": "—"
+      },
+      {
+        "name": "João Ribeiro",
+        "role": "UX Designer",
+        "status": "done",
+        "duration": "18:22",
+        "model": "Rápido (demo)"
+      }
+    ]
+  },
+  "HistoryModal": {
+    "title": "Histórico da conversa",
+    "description": "Consulte horários, mensagens e reproduções após cada sessão.",
+    "hint": "Sessões passadas de exemplo — exportação e áudio ligarão ao armazenamento mais tarde.",
+    "colWhen": "Quando",
+    "colCandidate": "Candidato",
+    "colSummary": "Resumo",
+    "colMessages": "Mensagens",
+    "colRecording": "Gravação",
+    "recordingYes": "Disponível",
+    "recordingNo": "Nenhuma",
+    "btnDetails": "Detalhes",
+    "btnPlayback": "Reproduzir",
+    "btnClose": "Fechar",
+    "msgUnit": "mensagens",
+    "btnDisabledHint": "Indisponível neste PoC",
+    "entries": [
+      {
+        "when": "Hoje · 09:41",
+        "candidate": "Maria Santos",
+        "summary": "Descoberta de produto, métricas, roadmap",
+        "messages": "12",
+        "recording": "yes"
+      },
+      {
+        "when": "Ontem · 16:05",
+        "candidate": "João Ribeiro",
+        "summary": "Design system e prototipagem",
+        "messages": "28",
+        "recording": "yes"
+      },
+      {
+        "when": "12 abr. · 11:20",
+        "candidate": "Carlos Almeida",
+        "summary": "Arquitetura backend e Kafka",
+        "messages": "19",
+        "recording": "no"
+      }
+    ]
+  },
+  "SettingsModal": {
+    "title": "Definições do workspace",
+    "description": "O que poderá ser configurado no produto: comportamento de IA, voz e áudio, predefinições de sessão e interface.",
+    "intro": "Neste PoC só existe o layout; gravação e APIs serão ligadas mais tarde.",
+    "sectionAi": "IA e prompts da entrevista",
+    "sectionAiHint": "Modelo, temperatura e instruções de sistema extra para o candidato virtual e o assistente.",
+    "modelLabel": "Modelo de linguagem",
+    "modelHint": "Modelo que gera respostas do candidato e sugestões ao entrevistador.",
+    "modelOptionFast": "Rápido (menor latência)",
+    "modelOptionBalanced": "Equilibrado",
+    "modelOptionQuality": "Maior qualidade",
+    "temperatureLabel": "Criatividade (temperatura)",
+    "temperatureHint": "Valores mais altos geram formulações mais variadas. Ainda não persistido.",
+    "systemPromptLabel": "Instruções de sistema adicionais",
+    "systemPromptPlaceholder": "Regras opcionais, tom ou foco da entrevista…",
+    "sectionVoice": "Voz e áudio",
+    "ttsLabel": "Voz do candidato (TTS)",
+    "ttsHint": "Perfil de voz para leitura do candidato IA.",
+    "ttsOptionNeutral": "Neutra",
+    "ttsOptionWarm": "Quente",
+    "ttsOptionCrisp": "Nítida",
+    "micModeLabel": "Captura do microfone",
+    "micModePush": "Pressionar para falar",
+    "micModeVad": "Deteção de voz (quando disponível)",
+    "inputDeviceLabel": "Dispositivo de entrada",
+    "outputDeviceLabel": "Dispositivo de saída",
+    "devicePlaceholder": "Predefinição do sistema (ainda não listado)",
+    "sectionSession": "Sessão e dados",
+    "sectionSessionHint": "Predefinições para novas entrevistas e retenção de dados.",
+    "defaultLangLabel": "Idioma predefinido da entrevista",
+    "defaultLangHint": "Para novas sessões; o idioma no cabeçalho continua a mandar na UI neste PoC.",
+    "langEn": "Inglês (EN)",
+    "langPt": "Português (PT)",
+    "retentionLabel": "Retenção das conversas",
+    "retentionPlaceholder": "PoC — só em memória",
+    "retentionHint": "Mais tarde: política de armazenamento e exportação por workspace.",
+    "sectionUi": "Interface do workspace",
+    "sectionUiHint": "Preferências de layout além do tema e idioma no cabeçalho.",
+    "showTranscriptLabel": "Manter o painel de transcrição expandido por predefinição",
+    "compactLogLabel": "Lista de mensagens mais compacta",
+    "cancel": "Fechar",
+    "save": "Guardar (pré-visualização)"
+  }
+}

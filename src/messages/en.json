@@ -1,0 +1,247 @@
+{
+  "Common": {
+    "close": "Close"
+  },
+  "WelcomeModal": {
+    "title": "Welcome — AI Candidate (PoC)",
+    "description": "Reopen anytime via Disclaimer in the header.",
+    "sectionBuiltTitle": "Stack & layout",
+    "sectionBuiltBody": "Next.js (App Router), next-intl EN/PT, themes, shadcn-style UI. Three columns: candidates, stage + chat, profile.",
+    "sectionCanTitle": "You can try",
+    "whatCanItems": [
+      "Demo candidates & profile; add persona (lost on refresh). Text bar → local chat only.",
+      "Sessions / History / Settings = layout mocks. EN/PT + theme in the header.",
+      "API stubs: GET/POST /api/users (JSON file), POST /api/llm/complete (stub)."
+    ],
+    "sectionMocksTitle": "Still mocked",
+    "sectionMocksBody": "No auth. Interview not persisted server-side. Mic / pause / stop are visual only. LLM route is a stub until a real client is wired.",
+    "sectionPlannedTitle": "Next wiring",
+    "plannedItems": [
+      "Database + APIs for users, sessions, transcripts; auth & workspaces.",
+      "Real LLM (see below) and speech: STT + TTS for the candidate."
+    ],
+    "sectionChoicesTitle": "Pick later",
+    "choicesIntro": "Swap implementations via UserRepository and LlmClient.",
+    "dbLabel": "Database",
+    "dbOptions": [
+      "Postgres / MySQL / SQLite; Prisma, Drizzle, or SQL. PoC: JSON file for /api/users."
+    ],
+    "llmLabel": "LLM",
+    "llmOptions": [
+      "OpenAI, Anthropic, Azure OpenAI, Gemini; or self-hosted (Ollama, vLLM, OpenAI-compatible)."
+    ],
+    "voiceLabel": "Voice",
+    "voiceOptions": [
+      "Web Speech API for quick tests; cloud STT/TTS (Google, Azure, AWS, ElevenLabs, …)."
+    ],
+    "sectionResearchTitle": "Voice & LLM — study takeaways",
+    "sectionResearchIntro": "Brief conclusions from docs/VOICE_AND_LLM_OPTIONS.md (prices and free tiers change—check vendors).",
+    "researchItems": [
+      "Portuguese STT: set pt-BR or pt-PT explicitly; quality swings with accent, mic, and noise—test on your own interview clips, not a single benchmark.",
+      "Try STT for free: run Whisper locally (e.g. faster-whisper, whisper.cpp). Browser Web Speech costs nothing but is often weak for PT. For streaming, shortlist cloud STT (Azure, Google, Deepgram, AssemblyAI) and compare on the same audio.",
+      "Cheap LLM PoC: Google AI Studio (Gemini), Groq free tier, or Ollama on your machine. When paying, smaller/faster models (e.g. Gemini Flash, GPT-4o-mini) are usually enough for short replies.",
+      "TTS: free/offline Piper or robotic browser speech; lower-cost cloud neural voices (Azure, Google, Polly); more natural speech tends to cost more (e.g. ElevenLabs). Match voice locale to pt-BR vs pt-PT.",
+      "STT, LLM, and TTS are separate: better recognition does not fix a weak model or a mismatched voice."
+    ],
+    "closing": "Server: docs/BACKEND.md · STT/LLM/TTS: docs/VOICE_AND_LLM_OPTIONS.md",
+    "btnGotIt": "Got it"
+  },
+  "App": {
+    "name": "AI Candidate",
+    "shortLogo": "AI"
+  },
+  "Header": {
+    "sessions": "Sessions",
+    "history": "History",
+    "settings": "Settings",
+    "disclaimer": "Disclaimer",
+    "disclaimerAria": "Open PoC disclaimer and orientation (English)"
+  },
+  "Theme": {
+    "toggle": "Switch light or dark theme"
+  },
+  "Language": {
+    "interface": "UI language",
+    "english": "English",
+    "portuguese": "Portuguese"
+  },
+  "Candidates": {
+    "title": "Candidates",
+    "addTooltip": "Add candidate"
+  },
+  "AddPersona": {
+    "title": "New candidate persona",
+    "description": "Stored in memory for this tab only. Refreshing the page restores the built-in demo list.",
+    "name": "Full name",
+    "role": "Role / title",
+    "seniority": "Seniority",
+    "background": "Professional summary",
+    "cvUpload": "CV file (.txt, .md)",
+    "cvPaste": "CV text",
+    "cvPlaceholder": "Paste CV text here, or load a plain-text file above.",
+    "cvPdfHint": "PDF files are not parsed in this PoC — paste the text from your CV instead.",
+    "skills": "Skills",
+    "skillsHint": "e.g. Node.js, PostgreSQL, Kafka",
+    "traits": "Personality",
+    "traitsHint": "e.g. Analytical, Calm, Direct",
+    "motivation": "Motivation",
+    "communicationStyle": "Communication style",
+    "cancel": "Cancel",
+    "save": "Save persona"
+  },
+  "Interview": {
+    "pause": "Pause",
+    "stop": "Stop",
+    "live": "LIVE",
+    "liveTimer": "04:17",
+    "inputPlaceholder": "Type your interview question…",
+    "sendMessage": "Send message"
+  },
+  "Profile": {
+    "profileTab": "Profile",
+    "sessionTab": "Session",
+    "sessionPlaceholder": "Session timing, model, and audio routing will show here in the next iteration.",
+    "cv": "CV (raw)",
+    "experience": "Experience",
+    "techStack": "Tech stack",
+    "personality": "Personality",
+    "motivation": "Motivation",
+    "communicationStyle": "Communication style",
+    "editProfile": "Edit profile"
+  },
+  "Voice": {
+    "candidateAnswering": "Candidate is answering",
+    "transcript": "Transcript",
+    "pressToSpeak": "Press to speak",
+    "micAria": "Voice input"
+  },
+  "MessageLog": {
+    "you": "You"
+  },
+  "SessionsModal": {
+    "title": "Session controls",
+    "description": "Start, pause, restart, and finish interview sessions from this panel.",
+    "hint": "Sample data for layout — actions are not connected yet.",
+    "activeSection": "Active interview",
+    "otherSection": "Other sessions today",
+    "colCandidate": "Candidate",
+    "colRole": "Role",
+    "colStatus": "Status",
+    "colDuration": "Elapsed",
+    "colModel": "Model",
+    "statusLive": "Live",
+    "statusPaused": "Paused",
+    "statusDone": "Completed",
+    "btnPause": "Pause",
+    "btnResume": "Resume",
+    "btnEnd": "End session",
+    "btnNew": "New session",
+    "btnClose": "Close",
+    "btnDisabledHint": "Not available in this PoC",
+    "current": {
+      "name": "Carlos Almeida",
+      "role": "Senior Backend",
+      "duration": "04:17",
+      "model": "Balanced (demo)"
+    },
+    "rows": [
+      {
+        "name": "Maria Santos",
+        "role": "Product Manager",
+        "status": "paused",
+        "duration": "00:00",
+        "model": "—"
+      },
+      {
+        "name": "João Ribeiro",
+        "role": "UX Designer",
+        "status": "done",
+        "duration": "18:22",
+        "model": "Fast (demo)"
+      }
+    ]
+  },
+  "HistoryModal": {
+    "title": "Conversation history",
+    "description": "Review timestamps, messages, and playback records after each session.",
+    "hint": "Sample past sessions — export and playback will connect to storage later.",
+    "colWhen": "When",
+    "colCandidate": "Candidate",
+    "colSummary": "Summary",
+    "colMessages": "Messages",
+    "colRecording": "Recording",
+    "recordingYes": "Available",
+    "recordingNo": "None",
+    "btnDetails": "Details",
+    "btnPlayback": "Playback",
+    "btnClose": "Close",
+    "msgUnit": "messages",
+    "btnDisabledHint": "Not available in this PoC",
+    "entries": [
+      {
+        "when": "Today · 09:41",
+        "candidate": "Maria Santos",
+        "summary": "Product discovery, metrics, roadmap",
+        "messages": "12",
+        "recording": "yes"
+      },
+      {
+        "when": "Yesterday · 16:05",
+        "candidate": "João Ribeiro",
+        "summary": "Design system and prototyping",
+        "messages": "28",
+        "recording": "yes"
+      },
+      {
+        "when": "12 Apr · 11:20",
+        "candidate": "Carlos Almeida",
+        "summary": "Backend architecture and Kafka",
+        "messages": "19",
+        "recording": "no"
+      }
+    ]
+  },
+  "SettingsModal": {
+    "title": "Workspace settings",
+    "description": "What the product spec will let you tune: AI behavior, audio/voice, session defaults, and workspace UI.",
+    "intro": "This PoC is layout only — persistence and APIs will be wired in a later phase.",
+    "sectionAi": "AI & interview prompts",
+    "sectionAiHint": "Model choice, sampling temperature, and extra system instructions for the virtual candidate and assistant.",
+    "modelLabel": "Language model",
+    "modelHint": "Model used for candidate replies and interviewer-side assistance.",
+    "modelOptionFast": "Fast (lower latency)",
+    "modelOptionBalanced": "Balanced",
+    "modelOptionQuality": "Higher quality",
+    "temperatureLabel": "Creativity (temperature)",
+    "temperatureHint": "Higher values produce more varied wording. Not persisted yet.",
+    "systemPromptLabel": "Additional system instructions",
+    "systemPromptPlaceholder": "Optional rules, tone, or focus for the interview…",
+    "sectionVoice": "Voice & audio",
+    "ttsLabel": "Candidate voice (TTS)",
+    "ttsHint": "Voice profile for AI candidate playback.",
+    "ttsOptionNeutral": "Neutral",
+    "ttsOptionWarm": "Warm",
+    "ttsOptionCrisp": "Crisp",
+    "micModeLabel": "Microphone capture",
+    "micModePush": "Push-to-talk",
+    "micModeVad": "Voice activity (when available)",
+    "inputDeviceLabel": "Input device",
+    "outputDeviceLabel": "Output device",
+    "devicePlaceholder": "System default (enumeration not wired yet)",
+    "sectionSession": "Session & data",
+    "sectionSessionHint": "Defaults for new interviews and how conversation data is kept.",
+    "defaultLangLabel": "Default interview language",
+    "defaultLangHint": "For new sessions; header language still drives the whole UI in this PoC.",
+    "langEn": "English (EN)",
+    "langPt": "Portuguese (PT)",
+    "retentionLabel": "Conversation retention",
+    "retentionPlaceholder": "PoC — in-memory only",
+    "retentionHint": "Later: per-workspace storage policy and export.",
+    "sectionUi": "Workspace UI",
+    "sectionUiHint": "Layout preferences beyond theme and language in the header.",
+    "showTranscriptLabel": "Keep transcript panel expanded by default",
+    "compactLogLabel": "Denser message list",
+    "cancel": "Close",
+    "save": "Save (preview)"
+  }
+}

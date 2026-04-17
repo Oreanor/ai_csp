@@ -3,13 +3,43 @@ import { useTranslations } from "next-intl";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import type { Candidate } from "@/types/interview";
+import type { ReactNode } from "react";
+
+import type { Candidate, CandidateFormality, CandidateUnderPressure } from "@/types/interview";
+
+function formalityDisplay(
+  f: CandidateFormality,
+  t: (key: string) => string,
+): string {
+  const map: Record<CandidateFormality, string> = {
+    formal: t("formalityFormal"),
+    neutral: t("formalityNeutral"),
+    informal: t("formalityInformal"),
+  };
+  return map[f];
+}
+
+function underPressureDisplay(
+  u: CandidateUnderPressure,
+  t: (key: string) => string,
+): string {
+  const map: Record<CandidateUnderPressure, string> = {
+    composed: t("underPressureComposed"),
+    verbose: t("underPressureVerbose"),
+    humor: t("underPressureHumor"),
+    defensive: t("underPressureDefensive"),
+  };
+  return map[u];
+}
 
 type ProfilePanelBodyProps = {
   candidate: Candidate;
+  onEditProfile?: () => void;
+  /** Optional block (e.g. browser TTS) shown before the edit button. */
+  interviewTts?: ReactNode;
 };
 
-export function ProfilePanelBody({ candidate }: ProfilePanelBodyProps) {
+export function ProfilePanelBody({ candidate, onEditProfile, interviewTts }: ProfilePanelBodyProps) {
   const t = useTranslations("Profile");
 
   return (
@@ -59,12 +89,40 @@ export function ProfilePanelBody({ candidate }: ProfilePanelBodyProps) {
             <Badge
               key={trait}
               variant="secondary"
-              className="rounded-full bg-emerald-500/15 font-normal text-emerald-800 dark:text-emerald-100"
+              className="rounded-full bg-brand-muted/90 font-normal text-brand-foreground"
             >
               {trait}
             </Badge>
           ))}
         </div>
+      </section>
+      <section>
+        <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          {t("socialStyle")}
+        </h4>
+        <p className="leading-relaxed text-foreground">
+          {candidate.socialStyle === "introvert"
+            ? t("socialStyleIntrovert")
+            : candidate.socialStyle === "extrovert"
+              ? t("socialStyleExtrovert")
+              : t("socialStyleAmbivert")}
+        </p>
+      </section>
+      <section>
+        <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          {t("formality")}
+        </h4>
+        <p className="leading-relaxed text-foreground">
+          {formalityDisplay(candidate.formality, t)}
+        </p>
+      </section>
+      <section>
+        <h4 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          {t("underPressure")}
+        </h4>
+        <p className="leading-relaxed text-foreground">
+          {underPressureDisplay(candidate.underPressure, t)}
+        </p>
       </section>
       <Separator />
       <section>
@@ -81,7 +139,19 @@ export function ProfilePanelBody({ candidate }: ProfilePanelBodyProps) {
           {candidate.communicationStyle}
         </p>
       </section>
-      <Button variant="outline" className="w-full">
+      {interviewTts ? (
+        <>
+          <Separator />
+          {interviewTts}
+        </>
+      ) : null}
+      <Button
+        type="button"
+        variant="outline"
+        className="w-full"
+        onClick={onEditProfile}
+        disabled={!onEditProfile}
+      >
         {t("editProfile")}
       </Button>
     </div>

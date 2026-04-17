@@ -13,6 +13,9 @@ export const initialCandidates: Candidate[] = [
     traits: ["Analytical", "Team-oriented", "Precise"],
     motivation: "Engineering leadership and complex technical challenges.",
     communicationStyle: "Formal, structured, with practical examples.",
+    socialStyle: "ambivert",
+    formality: "formal",
+    underPressure: "composed",
   },
   {
     id: "maria",
@@ -26,6 +29,9 @@ export const initialCandidates: Candidate[] = [
     traits: ["Curious", "Empathetic", "Organized"],
     motivation: "Building products with measurable user impact.",
     communicationStyle: "Friendly, objective, and collaborative.",
+    socialStyle: "extrovert",
+    formality: "neutral",
+    underPressure: "humor",
   },
   {
     id: "joao",
@@ -39,5 +45,8 @@ export const initialCandidates: Candidate[] = [
     traits: ["Creative", "Methodical", "Calm"],
     motivation: "Designing intuitive experiences for complex products.",
     communicationStyle: "Clear, visual, and user-centered.",
+    socialStyle: "introvert",
+    formality: "neutral",
+    underPressure: "composed",
   },
 ];

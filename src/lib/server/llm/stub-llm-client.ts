@@ -5,7 +5,9 @@ import type { LlmCompletionInput, LlmCompletionOutput } from "@/lib/server/llm/t
 export class StubLlmClient implements LlmClient {
   async complete(input: LlmCompletionInput): Promise<LlmCompletionOutput> {
     const lastUser = [...input.messages].reverse().find((m) => m.role === "user");
-    const preview = lastUser?.content?.slice(0, 120) ?? "";
+    const raw =
+      typeof lastUser?.content === "string" ? lastUser.content : String(lastUser?.content ?? "");
+    const preview = raw.slice(0, 120);
     return {
       text: `[llm-stub] Provider not configured. Echo (user): ${preview}`,
       finishReason: "stub",

@@ -1,4 +1,5 @@
 export type { LlmClient } from "@/lib/server/llm/llm-client";
+export { GeminiLlmClient } from "@/lib/server/llm/gemini-llm-client";
 export type {
   LlmCompletionInput,
   LlmCompletionOutput,

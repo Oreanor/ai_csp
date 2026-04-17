@@ -1,13 +1,30 @@
-const BAR_HEIGHTS = [10, 18, 28, 20, 34, 22, 30, 16, 12];
+import { cn } from "@/lib/utils";
 
-export function VoiceWaveform() {
+const BAR_HEIGHTS = [5, 9, 12, 8, 14, 10, 13, 7, 6];
+
+type VoiceWaveformProps = {
+  /** When true, bars use a simple staggered pulse so playback / activity is obvious. */
+  active?: boolean;
+  className?: string;
+};
+
+export function VoiceWaveform({ active = false, className }: VoiceWaveformProps) {
   return (
-    <div className="mx-auto mt-6 flex h-12 items-center justify-center gap-1.5">
+    <div
+      className={cn(
+        "flex h-6 w-fit shrink-0 items-end justify-end gap-0.5 self-end",
+        className,
+      )}
+      aria-hidden
+    >
       {BAR_HEIGHTS.map((height, index) => (
         <span
           key={`${height}-${index}`}
-          className="w-1.5 rounded-full bg-brand"
-          style={{ height }}
+          className={`voice-waveform-bar w-0.5 rounded-full bg-muted-foreground/25 ${active ? "voice-waveform-bar--active" : ""}`}
+          style={{
+            height,
+            animationDelay: active ? `${index * 65}ms` : undefined,
+          }}
         />
       ))}
     </div>

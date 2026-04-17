@@ -13,6 +13,10 @@ type CandidatesSidebarProps = {
   selectedId: string;
   onSelect: (id: string) => void;
   onAddClick: () => void;
+  /** When true, choosing another candidate is blocked (active interview session). */
+  switchLocked?: boolean;
+  /** When true, the add-candidate control is disabled (e.g. mic test or active session). */
+  addLocked?: boolean;
 };
 
 export function CandidatesSidebar({
@@ -20,6 +24,8 @@ export function CandidatesSidebar({
   selectedId,
   onSelect,
   onAddClick,
+  switchLocked = false,
+  addLocked = false,
 }: CandidatesSidebarProps) {
   const t = useTranslations("Candidates");
 
@@ -35,6 +41,7 @@ export function CandidatesSidebar({
           size="icon-sm"
           title={t("addTooltip")}
           aria-label={t("addTooltip")}
+          disabled={switchLocked || addLocked}
           onClick={onAddClick}
         >
           <Plus className="size-4" />
@@ -44,10 +51,13 @@ export function CandidatesSidebar({
         <div className="space-y-2 p-3">
           {candidates.map((candidate) => {
             const selected = candidate.id === selectedId;
+            const rowLocked = switchLocked && !selected;
             return (
               <button
                 key={candidate.id}
                 type="button"
+                disabled={rowLocked}
+                title={rowLocked ? t("switchLockedHint") : undefined}
                 onClick={() => onSelect(candidate.id)}
                 className={candidateRowClass(selected)}
               >
@@ -63,11 +73,8 @@ export function CandidatesSidebar({
                   </span>
                 </span>
                 <span
-                  className={`h-2.5 w-2.5 rounded-full ${
-                    candidate.status === "online"
-                      ? "bg-emerald-500"
-                      : "bg-muted-foreground/50"
-                  }`}
+                  className="h-2 w-2 shrink-0 rounded-full bg-muted-foreground/35"
+                  aria-hidden
                 />
               </button>
             );

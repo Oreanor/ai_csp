@@ -10,18 +10,26 @@ import type { TopModalView } from "@/types/interview";
 type WorkspaceModalProps = {
   activeModal: TopModalView | null;
   onOpenChange: (open: boolean) => void;
+  interviewBaseSystemPrompt: string;
+  onInterviewSettingsSaved: (next: { baseSystemPrompt: string; updatedAt: string }) => void;
 };
 
-export function WorkspaceModal({ activeModal, onOpenChange }: WorkspaceModalProps) {
+export function WorkspaceModal({
+  activeModal,
+  onOpenChange,
+  interviewBaseSystemPrompt,
+  onInterviewSettingsSaved,
+}: WorkspaceModalProps) {
   return (
     <Dialog open={activeModal !== null} onOpenChange={onOpenChange}>
       {activeModal !== null && (
-        <LightboxDialogContent
-          key={activeModal}
-          size={activeModal === "settings" ? "wide" : "medium"}
-        >
+        <LightboxDialogContent key={activeModal} size="medium">
           {activeModal === "settings" ? (
-            <SettingsModalContent onOpenChange={onOpenChange} />
+            <SettingsModalContent
+              onOpenChange={onOpenChange}
+              interviewBaseSystemPrompt={interviewBaseSystemPrompt}
+              onInterviewSettingsSaved={onInterviewSettingsSaved}
+            />
           ) : activeModal === "sessions" ? (
             <SessionsModalContent onOpenChange={onOpenChange} />
           ) : (

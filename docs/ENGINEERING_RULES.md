@@ -15,6 +15,11 @@ These rules keep the codebase maintainable as the PoC grows into a product.
 1. **Two concerns** — (a) **UI locale** — interface language; (b) **conversation language** — language of simulated interview content. They are independent.
 2. **Adding copy** — Add keys to **both** `en.json` and `pt.json` under the same path. Keep key namespaces stable (`App`, `Header`, `Interview`, …).
 3. **Locale persistence** — UI locale is stored in `localStorage` (see `UI_LOCALE_STORAGE_KEY`). Document any change to that contract.
+4. **Other persisted UI** — Interview auto-read-aloud uses `INTERVIEW_AUTO_TTS_STORAGE_KEY` in `src/lib/constants/storage-keys.ts` (`"1"` / `"0"`). Changing the key resets the default for existing browsers.
+
+## Deployment
+
+1. **Vercel / cloud** — Serverless-friendly routes live under `src/app/api/**`. Do not rely on writable JSON for production users; external STT needs `STT_SERVICE_URL`. See **`docs/DEPLOY_VERCEL.md`** and **`docs/BACKEND.md`**.
 
 ## Styling & theming
 

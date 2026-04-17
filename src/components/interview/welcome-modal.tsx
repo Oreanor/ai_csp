@@ -10,6 +10,7 @@ import {
   LightboxDialogFooter,
   LightboxDialogHeader,
 } from "@/components/ui/lightbox-dialog";
+import { appVersion } from "@/lib/app-version";
 function BulletList({ items }: { items: string[] }) {
   return (
     <ul className="mt-1.5 list-outside list-disc space-y-1 pl-5 text-muted-foreground marker:text-muted-foreground/80">
@@ -34,12 +35,15 @@ export function WelcomeModal({ open, onOpenChange }: WelcomeModalProps) {
   const llmOptions = t.raw("llmOptions") as string[];
   const voiceOptions = t.raw("voiceOptions") as string[];
   const researchItems = t.raw("researchItems") as string[];
+  const release020Items = t.raw("release020Items") as string[];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <LightboxDialogContent size="wide">
         <LightboxDialogHeader>
-          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogTitle>
+            {t("title")} · v{appVersion}
+          </DialogTitle>
           <DialogDescription className="text-left text-sm leading-snug">
             {t("description")}
           </DialogDescription>
@@ -47,6 +51,17 @@ export function WelcomeModal({ open, onOpenChange }: WelcomeModalProps) {
 
         <LightboxDialogBody className="pb-8">
           <div className="max-w-none space-y-3.5 text-sm leading-snug">
+            <section>
+              <h3 className="text-sm font-semibold text-foreground">{t("section020Title")}</h3>
+              <p className="mt-1.5 text-muted-foreground">{t("section020Intro")}</p>
+              <BulletList items={release020Items} />
+            </section>
+
+            <section>
+              <h3 className="text-sm font-semibold text-foreground">{t("section010Title")}</h3>
+              <p className="mt-1.5 text-xs text-muted-foreground">{t("section010Intro")}</p>
+            </section>
+
             <section>
               <h3 className="text-sm font-semibold text-foreground">{t("sectionBuiltTitle")}</h3>
               <p className="mt-1.5 text-muted-foreground">{t("sectionBuiltBody")}</p>
@@ -92,7 +107,9 @@ export function WelcomeModal({ open, onOpenChange }: WelcomeModalProps) {
               <BulletList items={researchItems} />
             </section>
 
-            <p className="text-xs text-muted-foreground">{t("closing")}</p>
+            <p className="text-xs text-muted-foreground">
+              {t("closing")} · {t("buildVersionHint", { version: appVersion })}
+            </p>
           </div>
         </LightboxDialogBody>
 

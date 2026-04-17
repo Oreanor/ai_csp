@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 
-const STORAGE_KEY = "theme";
+import { UI_THEME_STORAGE_KEY } from "@/lib/constants/storage-keys";
 
 type ThemeSetting = "light" | "dark" | "system";
 
@@ -26,7 +26,7 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 function readStoredTheme(): ThemeSetting {
   if (typeof window === "undefined") return "system";
   try {
-    const v = window.localStorage.getItem(STORAGE_KEY);
+    const v = window.localStorage.getItem(UI_THEME_STORAGE_KEY);
     if (v === "light" || v === "dark" || v === "system") return v;
   } catch {
     /* ignore */
@@ -88,7 +88,7 @@ export function AppThemeProvider({ children }: AppThemeProviderProps) {
   useLayoutEffect(() => {
     if (!mounted) return;
     const onStorage = (e: StorageEvent) => {
-      if (e.key !== STORAGE_KEY) return;
+      if (e.key !== UI_THEME_STORAGE_KEY) return;
       const v = e.newValue;
       if (v === "light" || v === "dark" || v === "system") setThemeState(v);
     };
@@ -100,7 +100,7 @@ export function AppThemeProvider({ children }: AppThemeProviderProps) {
     if (next !== "light" && next !== "dark" && next !== "system") return;
     setThemeState(next);
     try {
-      window.localStorage.setItem(STORAGE_KEY, next);
+      window.localStorage.setItem(UI_THEME_STORAGE_KEY, next);
     } catch {
       /* ignore */
     }
@@ -122,13 +122,7 @@ export function AppThemeProvider({ children }: AppThemeProviderProps) {
 export function useTheme(): ThemeContextValue & { themes: string[] } {
   const ctx = useContext(ThemeContext);
   if (!ctx) {
-    return {
-      theme: "system",
-      setTheme: () => {},
-      resolvedTheme: "light",
-      systemTheme: "light",
-      themes: ["light", "dark", "system"],
-    };
+    throw new Error("useTheme must be used within AppThemeProvider");
   }
   return { ...ctx, themes: ["light", "dark", "system"] };
 }

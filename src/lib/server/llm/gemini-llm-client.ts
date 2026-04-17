@@ -6,6 +6,8 @@ import type {
 } from "@google/generative-ai";
 
 import type { LlmClient } from "@/lib/server/llm/llm-client";
+import { LlmHttpResponseError } from "@/lib/server/llm/llm-http-response-error";
+import { mapGeminiSdkErrorMessage } from "@/lib/server/llm/map-gemini-sdk-error";
 import type { LlmCompletionInput, LlmCompletionOutput, LlmMessage } from "@/lib/server/llm/types";
 
 /** Concatenate plain text parts when the SDK helper cannot (e.g. safety block). */
@@ -146,9 +148,12 @@ export class GeminiLlmClient implements LlmClient {
         finishReason: finishReason ?? undefined,
       };
     } catch (e: unknown) {
-      const message =
-        e instanceof Error ? e.message : "Gemini request failed";
-      throw new Error(message);
+      const raw = e instanceof Error ? e.message : String(e);
+      const mapped = mapGeminiSdkErrorMessage(raw || "Gemini request failed");
+      throw new LlmHttpResponseError(mapped.shortMessage, mapped.httpStatus, {
+        code: mapped.code,
+        retryAfterSeconds: mapped.retryAfterSeconds,
+      });
     }
   }
 }

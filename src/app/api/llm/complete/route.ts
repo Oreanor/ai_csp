@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getLlmClient } from "@/lib/server/llm";
+import { getLlmClient, LlmHttpResponseError } from "@/lib/server/llm";
 import { parseLlmCompletionBody } from "@/lib/server/llm/parse-completion-body";
 import { ValidationError } from "@/lib/server/users/errors";
 
@@ -35,6 +35,17 @@ export async function POST(req: Request) {
   } catch (e) {
     if (e instanceof ValidationError) {
       return NextResponse.json({ error: e.message }, { status: 400 });
+    }
+    if (e instanceof LlmHttpResponseError) {
+      console.error("[api/llm/complete]", e.message, e.httpStatus, e.code ?? "");
+      return NextResponse.json(
+        {
+          error: e.message,
+          ...(e.code ? { code: e.code } : {}),
+          ...(e.retryAfterSeconds != null ? { retryAfterSeconds: e.retryAfterSeconds } : {}),
+        },
+        { status: e.httpStatus },
+      );
     }
     const message = errorMessage(e);
     console.error("[api/llm/complete]", e);

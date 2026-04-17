@@ -15,7 +15,7 @@ These rules keep the codebase maintainable as the PoC grows into a product.
 1. **Two concerns** — (a) **UI locale** — interface language; (b) **conversation language** — language of simulated interview content. They are independent.
 2. **Adding copy** — Add keys to **both** `en.json` and `pt.json` under the same path. Keep key namespaces stable (`App`, `Header`, `Interview`, …).
 3. **Locale persistence** — UI locale is stored in `localStorage` (see `UI_LOCALE_STORAGE_KEY`). Document any change to that contract.
-4. **Other persisted UI** — Interview auto-read-aloud uses `INTERVIEW_AUTO_TTS_STORAGE_KEY` in `src/lib/constants/storage-keys.ts` (`"1"` / `"0"`). Changing the key resets the default for existing browsers.
+4. **Other persisted UI** — Shared keys live in `src/lib/constants/storage-keys.ts`: theme (`UI_THEME_STORAGE_KEY`), interview auto-read-aloud (`INTERVIEW_AUTO_TTS_STORAGE_KEY`, values `"1"` / `"0"`). Changing a key resets the default for existing browsers.
 
 ## Deployment
 

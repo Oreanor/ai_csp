@@ -17,7 +17,8 @@ import {
 import type { SttLanguageMode } from "@/types/interview";
 
 type InterviewControlBarProps = {
-  onSendMessage: (text: string) => void | Promise<void>;
+  /** Return `false` to put the message back in the draft (send failed or was rejected). */
+  onSendMessage: (text: string) => boolean | void | Promise<boolean | void>;
   /** When false, mic, language, and text input are disabled (no active interview surface). */
   interactionEnabled?: boolean;
   /** When false, Send and Enter-to-send are disabled (e.g. mic test: draft/STT only). */
@@ -76,7 +77,10 @@ export function InterviewControlBar({
     setSendBusy(true);
     setDraft("");
     try {
-      await Promise.resolve(onSendMessage(text));
+      const result = await Promise.resolve(onSendMessage(text));
+      if (result === false) {
+        setDraft(text);
+      }
     } catch {
       setDraft(text);
     } finally {

@@ -10,7 +10,7 @@ import {
   LightboxDialogFooter,
   LightboxDialogHeader,
 } from "@/components/ui/lightbox-dialog";
-import { appVersion } from "@/lib/app-version";
+import { appVersion } from "@/lib/constants/app-version";
 function BulletList({ items }: { items: string[] }) {
   return (
     <ul className="mt-1.5 list-outside list-disc space-y-1 pl-5 text-muted-foreground marker:text-muted-foreground/80">

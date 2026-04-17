@@ -2,7 +2,7 @@
 
 Next.js workspace for a simulated interview: virtual candidates, chat, optional speech-to-text, and Gemini-backed replies when configured.
 
-**Version** is read from `package.json` at build time (`src/lib/app-version.ts`) and shown in the disclaimer modal title.
+**Version** is read from `package.json` at build time (`src/lib/constants/app-version.ts`) and shown in the disclaimer modal title.
 
 ## Changelog (high level)
 

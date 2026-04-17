@@ -38,11 +38,15 @@ function messagesMapForCandidates(candidates: Candidate[]): Record<string, Inter
   return Object.fromEntries(candidates.map((c) => [c.id, [] as InterviewMessage[]] as const));
 }
 
+type LlmCompletePayload = {
+  text?: string;
+  error?: string;
+  code?: string;
+  retryAfterSeconds?: number;
+};
+
 /** Parse `POST /api/llm/complete` body without throwing; accepts only object JSON with string fields. */
-function parseLlmCompleteFetchPayload(
-  raw: string,
-  res: Response,
-): { text?: string; error?: string } {
+function parseLlmCompleteFetchPayload(raw: string, res: Response): LlmCompletePayload {
   const trimmed = raw.trim();
   if (!trimmed) {
     if (!res.ok) {
@@ -62,9 +66,20 @@ function parseLlmCompleteFetchPayload(
   const o = parsed as Record<string, unknown>;
   const textVal = o.text;
   const errVal = o.error;
+  const codeVal = o.code;
+  const retryVal = o.retryAfterSeconds;
+  let retryAfterSeconds: number | undefined;
+  if (typeof retryVal === "number" && Number.isFinite(retryVal)) {
+    retryAfterSeconds = retryVal;
+  } else if (typeof retryVal === "string" && retryVal.trim()) {
+    const n = Number.parseFloat(retryVal);
+    if (Number.isFinite(n)) retryAfterSeconds = n;
+  }
   return {
     text: typeof textVal === "string" ? textVal : undefined,
     error: typeof errVal === "string" && errVal.trim() ? errVal.trim() : undefined,
+    code: typeof codeVal === "string" && codeVal.trim() ? codeVal.trim() : undefined,
+    retryAfterSeconds,
   };
 }
 
@@ -246,10 +261,10 @@ export function InterviewWorkspace() {
   }, [selectedCandidate]);
 
   const handleSendChatMessage = useCallback(
-    async (text: string) => {
-      if (!selectedCandidate) return;
-      if (micTestActive) return;
-      if (interviewSession.mode !== "running") return;
+    async (text: string): Promise<boolean> => {
+      if (!selectedCandidate) return false;
+      if (micTestActive) return false;
+      if (interviewSession.mode !== "running") return false;
 
       /** Bind to the interview that started the request (avoids wrong thread if candidate changes mid-flight). */
       const candidateId = selectedCandidate.id;
@@ -267,6 +282,13 @@ export function InterviewWorkspace() {
         listWithUser = [...prevList, userEntry];
         return { ...prev, [candidateId]: listWithUser };
       });
+
+      const rollbackUserMessage = () => {
+        setMessagesByCandidateId((prev) => {
+          const list = prev[candidateId] ?? [];
+          return { ...prev, [candidateId]: list.filter((m) => m.id !== userEntry.id) };
+        });
+      };
 
       setIsCandidateReplying(true);
       setCandidateReplyError(null);
@@ -295,12 +317,36 @@ export function InterviewWorkspace() {
         const data = parseLlmCompleteFetchPayload(raw, res);
 
         if (!res.ok) {
-          throw new Error(data.error ?? "LLM request failed");
+          rollbackUserMessage();
+          if (data.code === "RATE_LIMIT") {
+            const sec =
+              typeof data.retryAfterSeconds === "number" && Number.isFinite(data.retryAfterSeconds)
+                ? Math.max(1, Math.round(data.retryAfterSeconds))
+                : null;
+            setCandidateReplyError(
+              sec != null
+                ? tInterview("chatLlmRateLimit", { seconds: String(sec) })
+                : tInterview("chatLlmRateLimitUnknown"),
+            );
+            return false;
+          }
+          if (data.code === "AUTH") {
+            setCandidateReplyError(tInterview("chatLlmAuthError"));
+            return false;
+          }
+          const errLine = (data.error ?? "LLM request failed").trim();
+          const looksDump =
+            errLine.length > 200 ||
+            /GoogleGenerativeAI|googleapis\.com|type\.googleapis\.com|QuotaFailure/i.test(errLine);
+          setCandidateReplyError(looksDump ? tInterview("chatLlmUpstreamError") : errLine);
+          return false;
         }
 
         const replyText = (data.text ?? "").trim();
         if (!replyText) {
-          throw new Error(data.error?.trim() || "Empty reply");
+          rollbackUserMessage();
+          setCandidateReplyError(data.error?.trim() || tInterview("chatLlmError"));
+          return false;
         }
 
         const candidateEntry: InterviewMessage = {
@@ -323,21 +369,25 @@ export function InterviewWorkspace() {
         } else {
           setAutoPlayCandidateMessageId(null);
         }
+        return true;
       } catch (e) {
         const aborted = e instanceof DOMException && e.name === "AbortError";
-        setMessagesByCandidateId((prev) => {
-          const list = prev[candidateId] ?? [];
-          const withoutFailedUser = list.filter((m) => m.id !== userEntry.id);
-          return { ...prev, [candidateId]: withoutFailedUser };
-        });
+        rollbackUserMessage();
         if (aborted) {
           setCandidateReplyError(null);
-          throw e;
+          return false;
         }
-        console.error("[interview LLM]", e);
         const detail = e instanceof Error && e.message.trim() ? e.message.trim() : "";
-        setCandidateReplyError(detail || tInterview("chatLlmError"));
-        throw e;
+        const looksLikeSdkDump =
+          detail.length > 200 ||
+          /GoogleGenerativeAI|googleapis\.com|type\.googleapis\.com|QuotaFailure/i.test(detail);
+        if (looksLikeSdkDump) {
+          console.error("[interview LLM]", e);
+        }
+        setCandidateReplyError(
+          looksLikeSdkDump ? tInterview("chatLlmUpstreamError") : detail || tInterview("chatLlmError"),
+        );
+        return false;
       } finally {
         llmAbortRef.current = null;
         setIsCandidateReplying(false);

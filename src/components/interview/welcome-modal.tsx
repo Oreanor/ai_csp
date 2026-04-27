@@ -35,6 +35,7 @@ export function WelcomeModal({ open, onOpenChange }: WelcomeModalProps) {
   const llmOptions = t.raw("llmOptions") as string[];
   const voiceOptions = t.raw("voiceOptions") as string[];
   const researchItems = t.raw("researchItems") as string[];
+  const release030Items = t.raw("release030Items") as string[];
   const release020Items = t.raw("release020Items") as string[];
 
   return (
@@ -51,6 +52,12 @@ export function WelcomeModal({ open, onOpenChange }: WelcomeModalProps) {
 
         <LightboxDialogBody className="pb-8">
           <div className="max-w-none space-y-3.5 text-sm leading-snug">
+            <section>
+              <h3 className="text-sm font-semibold text-foreground">{t("section030Title")}</h3>
+              <p className="mt-1.5 text-muted-foreground">{t("section030Intro")}</p>
+              <BulletList items={release030Items} />
+            </section>
+
             <section>
               <h3 className="text-sm font-semibold text-foreground">{t("section020Title")}</h3>
               <p className="mt-1.5 text-muted-foreground">{t("section020Intro")}</p>

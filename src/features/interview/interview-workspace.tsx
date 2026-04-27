@@ -5,7 +5,7 @@ import { Headphones, Pause, Play, Square } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import { CandidatesSidebar } from "@/components/interview/candidates-sidebar";
-import { InterviewControlBar } from "@/components/interview/interview-control-bar";
+import { LiveVoiceBar } from "@/components/interview/live-voice-bar";
 import { InterviewMessageLog } from "@/components/interview/interview-message-log";
 import { CandidatePersonaDialog } from "@/components/interview/candidate-persona-dialog";
 import { ProfileTtsSection } from "@/components/interview/profile-tts-section";
@@ -115,6 +115,8 @@ export function InterviewWorkspace() {
   );
   const [sessionTick, setSessionTick] = useState(0);
   const [interviewerBaseSystemPrompt, setInterviewerBaseSystemPrompt] = useState("");
+  const [isLiveActive, setIsLiveActive] = useState(false);
+  const [isLiveSpeaking, setIsLiveSpeaking] = useState(false);
   const llmAbortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -219,12 +221,39 @@ export function InterviewWorkspace() {
     dispatchInterviewSession({ type: "STOP" });
   }, []);
 
-  const switchLocked = interviewSession.mode !== "idle";
+  const switchLocked = interviewSession.mode !== "idle" || isLiveActive;
 
   const selectedCandidate = useMemo(
     () =>
       candidateList.find((c) => c.id === selectedCandidateId) ?? candidateList[0],
     [candidateList, selectedCandidateId],
+  );
+
+  const systemPrompt = useMemo(
+    () =>
+      selectedCandidate
+        ? buildCandidateSystemPrompt(selectedCandidate, locale, {
+            interviewerBasePrompt: interviewerBaseSystemPrompt,
+          })
+        : "",
+    [selectedCandidate, locale, interviewerBaseSystemPrompt],
+  );
+
+  const handleLiveTranscript = useCallback(
+    (text: string, role: "user" | "model") => {
+      if (!selectedCandidate) return;
+      const candidateId = selectedCandidate.id;
+      const entry: InterviewMessage = {
+        id: `live-${role[0]}-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+        from: role === "user" ? "interviewer" : "candidate",
+        text: { en: text, pt: text },
+      };
+      setMessagesByCandidateId((prev) => ({
+        ...prev,
+        [candidateId]: [...(prev[candidateId] ?? []), entry],
+      }));
+    },
+    [selectedCandidate],
   );
 
   const toggleModal = useCallback((view: TopModalView) => {
@@ -475,7 +504,7 @@ export function InterviewWorkspace() {
                   </div>
                 </div>
                 <VoiceWaveform
-                  active={ttsPlaybackActive || isCandidateReplying || micRecording}
+                  active={ttsPlaybackActive || isCandidateReplying || micRecording || isLiveActive || isLiveSpeaking}
                   className="ml-auto shrink-0"
                 />
               </div>
@@ -598,7 +627,8 @@ export function InterviewWorkspace() {
                     disabled={
                       !ttsBrowserSupported ||
                       interviewSession.mode !== "running" ||
-                      micTestActive
+                      micTestActive ||
+                      isLiveActive
                     }
                     onCheckedChange={(v) => setAutoPlayTts(Boolean(v))}
                   />
@@ -612,13 +642,17 @@ export function InterviewWorkspace() {
               </div>
             </div>
 
-            <InterviewControlBar
+            <LiveVoiceBar
+              systemPrompt={systemPrompt}
+              onTranscript={handleLiveTranscript}
               onSendMessage={handleSendChatMessage}
               interactionEnabled={replicaSurfaceActive}
               allowSend={replicaAllowSend}
               candidateReplyPending={isCandidateReplying}
               onCancelCandidateReply={cancelCandidateReply}
               onRecordingChange={setMicRecording}
+              onLiveSpeakingChange={setIsLiveSpeaking}
+              onLiveStatusChange={setIsLiveActive}
             />
           </section>
 

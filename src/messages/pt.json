@@ -211,7 +211,13 @@
     "sttLanguageAria": "Idioma do reconhecimento de voz",
     "sttLangAuto": "Automático (detetar idioma)",
     "sttLangEn": "Inglês",
-    "sttLangPt": "Português"
+    "sttLangPt": "Português",
+    "liveConnect": "Iniciar voz ao vivo",
+    "liveDisconnect": "Parar voz ao vivo",
+    "liveConnecting": "A ligar…",
+    "liveBadge": "Ao vivo",
+    "liveHint": "Fale — o Gemini está a ouvir",
+    "liveInputPlaceholder": "Ou escreva uma pergunta…"
   },
   "Tts": {
     "sectionLabel": "Voz do candidato (navegador)",

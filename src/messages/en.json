@@ -211,7 +211,13 @@
     "sttLanguageAria": "Speech recognition language",
     "sttLangAuto": "Auto (detect language)",
     "sttLangEn": "English",
-    "sttLangPt": "Portuguese"
+    "sttLangPt": "Portuguese",
+    "liveConnect": "Start live voice",
+    "liveDisconnect": "Stop live voice",
+    "liveConnecting": "Connecting…",
+    "liveBadge": "Live",
+    "liveHint": "Speak — Gemini is listening",
+    "liveInputPlaceholder": "Or type a question…"
   },
   "Tts": {
     "sectionLabel": "Candidate voice (browser)",

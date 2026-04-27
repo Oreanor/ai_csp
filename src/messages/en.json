@@ -8,7 +8,7 @@
     "section030Title": "0.3.0 — live speech-to-speech",
     "section030Intro": "The voice pipeline has been replaced. Instead of three separate steps — microphone → STT transcription → LLM text reply → browser text-to-speech — the app now uses Gemini Live for a direct, real-time speech-to-speech connection.",
     "release030Items": [
-      "Press "Start live voice" to open a bidirectional audio session with Gemini 2.5 Flash. You speak, Gemini listens and replies in audio — no intermediate transcription step needed.",
+      "Press 'Start live voice' to open a bidirectional audio session with Gemini 2.5 Flash. You speak, Gemini listens and replies in audio — no intermediate transcription step needed.",
       "Requires NEXT_PUBLIC_GEMINI_API_KEY in .env.local (a Google AI Studio key works for free-tier testing).",
       "Voice gender matches the candidate: male candidates use a male voice (Charon), female candidates use a female voice (Aoede).",
       "Transcripts from the live session still appear in the chat log as the conversation progresses."

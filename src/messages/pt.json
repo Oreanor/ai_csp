@@ -8,7 +8,7 @@
     "section030Title": "0.3.0 — voz em tempo real",
     "section030Intro": "O pipeline de voz foi substituído. Em vez de três passos separados — microfone → transcrição STT → resposta LLM em texto → síntese de voz no browser — a aplicação usa agora o Gemini Live para uma ligação direta de áudio em tempo real.",
     "release030Items": [
-      "Clique em "Iniciar voz em direto" para abrir uma sessão de áudio bidirecional com o Gemini 2.5 Flash. Fala, o Gemini ouve e responde em áudio — sem etapa de transcrição intermédia.",
+      "Clique em 'Iniciar voz em direto' para abrir uma sessão de áudio bidirecional com o Gemini 2.5 Flash. Fala, o Gemini ouve e responde em áudio — sem etapa de transcrição intermédia.",
       "Requer NEXT_PUBLIC_GEMINI_API_KEY em .env.local (a chave do Google AI Studio funciona para testes no nível gratuito).",
       "O género da voz corresponde ao candidato: candidatos masculinos usam voz masculina (Charon), femininos usam voz feminina (Aoede).",
       "As transcrições da sessão em direto continuam a aparecer no registo de chat à medida que a conversa avança."

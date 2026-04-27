@@ -49,6 +49,14 @@ function nameSoundsFemale(fullName: string): boolean {
   return false;
 }
 
+/** Male/female prebuilt voices for Gemini Live API. */
+const GEMINI_MALE_VOICE = "Charon";
+const GEMINI_FEMALE_VOICE = "Aoede";
+
+export function geminiVoiceForCandidate(name: string): string {
+  return nameSoundsFemale(name) ? GEMINI_FEMALE_VOICE : GEMINI_MALE_VOICE;
+}
+
 /**
  * Pick a speechSynthesis voice for the candidate using name heuristics + catalog keywords.
  * Falls back to browser default for the locale list, then first listed voice.

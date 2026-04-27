@@ -34,12 +34,14 @@ function pcm16Base64ToFloat32(b64: string): Float32Array<ArrayBuffer> {
 
 export type UseGeminiLiveOptions = {
   systemPrompt: string;
+  voiceName?: string;
   onTranscript?: (text: string, role: "user" | "model") => void;
   onSpeakingChange?: (speaking: boolean) => void;
 };
 
 export function useGeminiLive({
   systemPrompt,
+  voiceName,
   onTranscript,
   onSpeakingChange,
 }: UseGeminiLiveOptions) {
@@ -146,6 +148,11 @@ export function useGeminiLive({
           inputAudioTranscription: {},
           outputAudioTranscription: {},
           temperature: 0.7,
+          ...(voiceName && {
+            speechConfig: {
+              voiceConfig: { prebuiltVoiceConfig: { voiceName } },
+            },
+          }),
         },
         callbacks: {
           onopen: () => {
@@ -252,7 +259,7 @@ export function useGeminiLive({
       void playCtxRef.current?.close().catch(() => {});
       playCtxRef.current = null;
     }
-  }, [systemPrompt, updateStatus, stopMic, clearPlayback, enqueueAudio]);
+  }, [systemPrompt, voiceName, updateStatus, stopMic, clearPlayback, enqueueAudio]);
 
   const disconnect = useCallback(() => {
     try { sessionRef.current?.close(); } catch { /* ignore */ }

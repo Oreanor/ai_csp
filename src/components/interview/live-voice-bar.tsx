@@ -11,6 +11,7 @@ import { useGeminiLive } from "@/lib/voice/use-gemini-live";
 
 type LiveVoiceBarProps = {
   systemPrompt: string;
+  voiceName?: string;
   onTranscript: (text: string, role: "user" | "model") => void;
   onSendMessage: (text: string) => boolean | void | Promise<boolean | void>;
   interactionEnabled?: boolean;
@@ -24,6 +25,7 @@ type LiveVoiceBarProps = {
 
 export function LiveVoiceBar({
   systemPrompt,
+  voiceName,
   onTranscript,
   onSendMessage,
   interactionEnabled = true,
@@ -42,6 +44,7 @@ export function LiveVoiceBar({
 
   const { status, error, connect, disconnect, sendText } = useGeminiLive({
     systemPrompt,
+    voiceName,
     onTranscript,
     onSpeakingChange: onLiveSpeakingChange,
   });

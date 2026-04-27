@@ -21,6 +21,7 @@ import { useAppLocale } from "@/components/providers/locale-provider";
 import { initialCandidates } from "@/data/candidates";
 import { INTERVIEW_AUTO_TTS_STORAGE_KEY } from "@/lib/constants/storage-keys";
 import { isBrowserTtsSupported, stopBrowserTts } from "@/lib/voice/browser-tts";
+import { geminiVoiceForCandidate } from "@/lib/voice/infer-candidate-voice";
 import {
   buildCandidateSystemPrompt,
   interviewMessagesToLlm,
@@ -237,6 +238,11 @@ export function InterviewWorkspace() {
           })
         : "",
     [selectedCandidate, locale, interviewerBaseSystemPrompt],
+  );
+
+  const geminiVoiceName = useMemo(
+    () => (selectedCandidate ? geminiVoiceForCandidate(selectedCandidate.name) : undefined),
+    [selectedCandidate],
   );
 
   const handleLiveTranscript = useCallback(
@@ -644,6 +650,7 @@ export function InterviewWorkspace() {
 
             <LiveVoiceBar
               systemPrompt={systemPrompt}
+              voiceName={geminiVoiceName}
               onTranscript={handleLiveTranscript}
               onSendMessage={handleSendChatMessage}
               interactionEnabled={replicaSurfaceActive}
